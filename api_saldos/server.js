@@ -36,3 +36,32 @@ client.connect(
     console.log('Conexion hecha');
     client.end();
 });
+
+app.post('/api/insertar', function(req, res){
+    var cedula = req.body.cedula;
+    var nombre = req.body.nombre;
+    var dinero = req.body.dinero;
+
+    var queryInsertar = 'INSERT INTO saldos VALUES('
+                + cedula + ', '
+                + '\'' + nombre + '\', '
+                + dinero + ');'
+    console.log(queryInsertar);
+
+    pg.connect(URL, function(err, client, done){
+        if (err){
+            res.send('Error :(');
+            return console.log('Error de conexión');
+        }
+        client.query(queryInsertar, function(err, result){
+            if(err){
+                res.send('Error :(');
+                client.end();
+                return console.log('Error en el query');
+            }
+            console.log('Se insertó');
+            res.send('OK :)');
+            client.end();
+        });
+    });
+});
