@@ -1,3 +1,4 @@
+
 console.log('Inició el mini api');
 
 var express = require('express');
@@ -22,3 +23,16 @@ app.post('/postPrueba',
     console.log(req.body);
     res.send('OK');
   });
+
+var pg = require('pg');
+var URL = 'postgres://tsnccnvf:mToTi3ydC7Su2GW8FZJ0Sa-smldy9IOD@pellefant.db.elephantsql.com:5432/tsnccnvf';
+
+var client = new pg.Client(URL);
+client.connect(
+  function(err){
+    if (err) {
+      return console.log('Error en la conexion a la db');
+    }
+    console.log('Conexion hecha');
+    client.end();
+});
